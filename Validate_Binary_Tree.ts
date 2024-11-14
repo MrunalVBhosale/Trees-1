@@ -12,17 +12,18 @@
  }
  
 
-function isValidBST(root: TreeNode | null): boolean {
-    if (root){
-    helper(root);
-    }
-    return true;
-};
-
-const helper = (root: TreeNode): void => {
-    if (root === null) return;
-    isValidBST(root.left);
-    console.log(`up: ${root.val}`);
-    isValidBST(root.right);
-    console.log(`down: ${root.val}`);
-}
+ let prev: number | null = null;
+ function isValidBST(root: TreeNode | null): boolean {
+     prev = null;
+     return helper(root);
+ };
+ 
+ const helper = (root: TreeNode | null): boolean => {
+     if (root === null) return true;
+     if( !helper(root.left)) return false;
+     if (prev !== null && prev >= root.val) {
+         return false
+     }
+     prev = root.val;
+     return  helper(root.right);  
+ }
